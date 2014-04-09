@@ -9,6 +9,7 @@ import (
 var (
 	PlaybookFile  = flag.String("play", "site.yml", "Path to the playbook to execute")
 	InventoryFile = flag.String("i", "hosts", "Path to the inventory file")
+	LimitHosts    = flag.String("l", "", "Limit hosts")
 )
 
 func main() {
