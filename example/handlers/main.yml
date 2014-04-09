@@ -1,0 +1,14 @@
+---
+# handlers/main.yml
+# 
+# In this file, you can define handlers (which are almost identical to tasks).
+#
+# There is no need, or ability, to include other YAML files holding handlers.
+# This is because govern will load all YAML files in the `handlers`
+# directory.
+#
+
+# Here is an exmaple of a handler (please note, that ideally, this handler
+# would be organized so that it is in a file called "crond.yml"):
+- name: restart crond
+  service: name=crond state=restarted
