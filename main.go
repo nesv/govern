@@ -20,14 +20,17 @@ func main() {
 		glog.Fatalf("error loading inventory file %q reason=%s", *InventoryFile, err.Error())
 	}
 
-	if ngroups := len(inv.Groups); ngroups == 1 {
+	if ngroups := len(inv); ngroups == 1 {
 		glog.V(1).Info("Loaded 1 group from inventory")
 	} else {
 		glog.V(1).Infof("Loaded %d groups from inventory", ngroups)
 	}
 
-	if err = inv.Check(); err != nil {
-		glog.Fatalln(err.Error())
+	// Run a sanity check on the inventory groups.
+	for _, g := range inv {
+		if err = g.Check(); err != nil {
+			glog.Fatalf("Error in group %q: %s", g.Name, err.Error())
+		}
 	}
 
 	return

@@ -1,32 +1,31 @@
 ---
-groups:
-  # Datacenter-role-specific groups
-  - group: yyz-webservers
-    hosts:
-      - web01
-      - web02
+# Datacenter-role-specific groups
+- group: yyz-webservers
+  hosts:
+    - web01
+    - web02
 
-  - group: yyc-load-balancers
-    hosts:
-      - pound01
+- group: yyc-loadbalancers
+  hosts:
+    - pound01
 
-  # Role-specific groups
-  - group: webservers
-    children:
-      - yyz-webservers
+# Role-specific groups
+- group: webservers
+  children:
+    - yyz-webservers
 
-  # Datacenter-specific groups
-  - group: yyz
-    hosts:
-      - admin01.yyz
-    children:
-      - yyz-webservers
+# Datacenter-specific groups
+- group: yyz
+  hosts:
+    - admin01.yyz
+  children:
+    - yyz-webservers
 
-  - group: yyc
-    hosts:
-      - admin01.yyc
-    children:
-      - yyc-load-balancers
+- group: yyc
+  hosts:
+    - admin01.yyc
+  children:
+    - yyc-load-balancers
 
-  # This group will intentionally fail the sanity check
-  - group: empty-group
+# This group will intentionally fail the sanity check
+- group: empty-group
