@@ -1,0 +1,21 @@
+---
+# roles/main.yml
+#
+# Roles allow you to apply sets of tasks to hosts, in a sweeping fashion.
+# 
+# The keys you can provide in a role definition are as follows:
+#
+#   name (required) - string
+#     The name of the role.
+#
+#   tasks (required) - list of strings
+#     A list of tasks this role must perform. Each specified task must match
+#     the name of a file in the `tasks` directory.
+
+- name: webserver
+  tasks:
+    - apache
+
+- name: loadbalancer
+  tasks:
+    - pound
