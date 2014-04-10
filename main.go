@@ -23,9 +23,9 @@ func main() {
 	}
 
 	if ngroups := len(inv); ngroups == 1 {
-		log.Println("Loaded 1 group from inventory")
+		log.Println("1 host group loaded from inventory")
 	} else {
-		log.Printf("Loaded %d groups from inventory", ngroups)
+		log.Printf("%d host groups loaded from inventory", ngroups)
 	}
 
 	// Run a sanity check on the inventory groups.
@@ -35,6 +35,22 @@ func main() {
 		}
 	}
 
+	// Gather a list of the available modules.
+	mods, err := GatherModules()
+	if err != nil {
+		log.Fatalf("Error gathering modules: %s", err.Error())
+	}
+
+	if nmods := len(mods); nmods == 0 {
+		log.Fatalln("No modules found")
+	} else if nmods == 1 {
+		log.Println("1 module loaded")
+	} else {
+		log.Printf("%d modules loaded", nmods)
+	}
+
+	// Load the roles.
+
 	// Load the playbook.
 	plays, err := LoadPlaybook(*PlaybookFile)
 	if err != nil {
@@ -42,9 +58,9 @@ func main() {
 	}
 
 	if nplays := len(plays); nplays == 1 {
-		log.Println("Loaded 1 play")
+		log.Println("1 play loaded")
 	} else {
-		log.Printf("Loaded %d plays", len(plays))
+		log.Printf("%d plays loaded", len(plays))
 	}
 
 	// Check the plays.
