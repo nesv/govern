@@ -2,8 +2,8 @@ package main
 
 import (
 	"flag"
-
-	"github.com/golang/glog"
+	"log"
+	"os"
 )
 
 var (
@@ -14,22 +14,24 @@ var (
 
 func main() {
 	flag.Parse()
+	log.SetFlags(0)
+	log.SetOutput(os.Stdout)
 
 	inv, err := LoadInventoryFile(*InventoryFile)
 	if err != nil {
-		glog.Fatalf("error loading inventory file %q reason=%s", *InventoryFile, err.Error())
+		log.Fatalf("error loading inventory file %q reason=%s", *InventoryFile, err.Error())
 	}
 
 	if ngroups := len(inv); ngroups == 1 {
-		glog.V(1).Info("Loaded 1 group from inventory")
+		log.Println("Loaded 1 group from inventory")
 	} else {
-		glog.V(1).Infof("Loaded %d groups from inventory", ngroups)
+		log.Printf("Loaded %d groups from inventory", ngroups)
 	}
 
 	// Run a sanity check on the inventory groups.
 	for _, g := range inv {
 		if err = g.Check(); err != nil {
-			glog.Fatalf("Error in group %q: %s", g.Name, err.Error())
+			log.Fatalf("Error in group %q: %s", g.Name, err.Error())
 		}
 	}
 
