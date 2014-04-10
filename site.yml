@@ -1,0 +1,11 @@
+---
+# site.yml
+#
+# An example playbook file for govern.
+#
+
+- play: Common baseline
+  hosts:
+    - all
+  roles:
+    - common
