@@ -35,5 +35,24 @@ func main() {
 		}
 	}
 
+	// Load the playbook.
+	plays, err := LoadPlaybook(*PlaybookFile)
+	if err != nil {
+		log.Fatalf("Error loading playbook %q: %s", *PlaybookFile, err.Error())
+	}
+
+	if nplays := len(plays); nplays == 1 {
+		log.Println("Loaded 1 play")
+	} else {
+		log.Printf("Loaded %d plays", len(plays))
+	}
+
+	// Check the plays.
+	for _, p := range plays {
+		if err := p.Check(); err != nil {
+			log.Fatalf("Error in play %q: %s", p.Name, err.Error())
+		}
+	}
+
 	return
 }
