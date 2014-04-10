@@ -28,4 +28,4 @@
     - yyc-load-balancers
 
 # This group will intentionally fail the sanity check
-- group: empty-group
+#- group: empty-group
