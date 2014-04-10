@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	"github.com/golang/glog"
 	yaml "gopkg.in/yaml.v1"
 )
 
@@ -27,8 +26,6 @@ func LoadInventoryFile(pth string) ([]InventoryGroup, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	glog.V(4).Infof("Read %d bytes from %s", len(b), pth)
 
 	var inv []InventoryGroup
 	err = yaml.Unmarshal(b, &inv)
