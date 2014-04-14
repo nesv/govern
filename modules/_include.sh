@@ -19,8 +19,8 @@ then
     exit 254
 fi
 
-MARGS="$@"
+PARAMS="$@"
 
-getarg() {
+getparam() {
     
 }
