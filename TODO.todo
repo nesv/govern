@@ -1,7 +1,13 @@
-# TODO
+#+TITLE: .org file for govern
+#+AUTHOR: nesv
 
-## Playbooks
+* Playbooks
 
-* [ ] `serial` tag (specifies how many hosts we run on, at a time)
-* [ ] `pre` Things to run before `roles` are executed
-* [ ] `post` Things to run after `roles` are executed
+** `serial`
+   Specifies how many hosts to run commands on, in parallel
+
+** `pre`
+   Tasks to run before `roles` are executed
+
+** `post`
+   Tasks to run after `roles` are executed
