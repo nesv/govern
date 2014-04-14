@@ -8,6 +8,28 @@
 
 ** `pre`
    Tasks to run before `roles` are executed
-
+   
 ** `post`
    Tasks to run after `roles` are executed
+
+* Daemon mode
+  Add support for a `-d` flag, which puts govern into a "daemon mode" that will
+  provide a snazzy web interface for managing delegate hosts. This could be
+  handy for tiered orchestration, where the `govern -d` node talks to hosts in
+  its inventory, and sends out modules and pre-compiled govern executables to 
+  the nodes it is managing.
+
+** Snazzy web interface
+   Angular.js? Just jQuery?
+
+*** Modify the inventory
+
+*** Provision govern on the upstream hosts
+    This includes a govern executable for that host, and any modules
+
+* Use the go.crypto/ssh package
+  Example implementation: https://gist.github.com/joelegasse/ea559b0c41a9e3f626e4
+
+* "Pull" mode
+  Instead of pushing out to hosts (which will be the main focus), allow for
+  an agent-oriented setup, where the agents can pull from a central govern node.
