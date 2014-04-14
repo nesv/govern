@@ -18,6 +18,21 @@ func init() {
 
 	userModsPath := filepath.Join(os.Getenv("HOME"), ".govern", "modules")
 	ModulePaths = append(ModulePaths, userModsPath)
+
+	if pwd, err := os.Getwd(); err == nil {
+		lmd := filepath.Join(pwd, "modules")
+		if info, err := os.Stat(lmd); err != nil && os.IsNotExist(err) {
+			fmt.Println("No \"modules\" directory in the current working path")
+		} else if err != nil {
+			fmt.Println("ERROR:", err.Error())
+		} else if !info.IsDir() {
+			fmt.Println("WARNING: Found modules in current directory, but is not a directory")
+		} else if info.IsDir() {
+			ModulePaths = append(ModulePaths, lmd)
+		}
+	} else {
+		fmt.Println("ERROR:", err.Error())
+	}
 }
 
 type Module struct {
@@ -60,6 +75,13 @@ func gatherModulesInDir(pth string) ([]Module, error) {
 
 	mods := make([]Module, 0)
 	for _, match := range matches {
+		// Skip files with an underscore as the first letter of the name.
+		// The underscore as the first letter in the filename is used to
+		// denote includes.
+		if strings.HasPrefix(filepath.Base(match), "_") {
+			continue
+		}
+
 		parts := strings.SplitN(filepath.Base(match), "_", 4)
 
 		var name, osf, osvmj, osvmn string
