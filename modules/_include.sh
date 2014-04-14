@@ -21,6 +21,18 @@ fi
 
 PARAMS="$@"
 
-getparam() {
-    
+# Dump "key=value" formatted params into an associative array.
+declare -a KWPARAMS
+for param in "${PARAMS[@]}"
+do
+    key=$(echo "$param" | cut -d'=' -f1)
+    val=$(echo "$param" | cut -d'=' -f2)
+    KWPARAMS["$key"]="$val"
+done
+
+# The getparam function looks at the first argument, and returns the value of
+# the "key=value" formatted parameter that was passed to the module.
+getparam()
+{
+    echo ${KWPARAMS["$1"]}
 }
