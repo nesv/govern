@@ -30,6 +30,10 @@ func (p Play) Check() error {
 	return nil
 }
 
+func (p Play) Run(inv []InventoryGroup) error {
+	return nil
+}
+
 func LoadPlaybook(pth string) ([]Play, error) {
 	b, err := ioutil.ReadFile(pth)
 	if err != nil {
