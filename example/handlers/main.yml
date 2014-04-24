@@ -11,4 +11,4 @@
 # Here is an exmaple of a handler (please note, that ideally, this handler
 # would be organized so that it is in a file called "crond.yml"):
 - name: restart crond
-  service: name=crond state=restarted
+  action: echo "msg=restarting crond"
