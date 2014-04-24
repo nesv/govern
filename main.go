@@ -78,7 +78,7 @@ func main() {
 
 	// Bail out here if the user wanted only to check the format of their
 	// plays, roles, tasks, etc.
-	if CheckAndQuit {
+	if *CheckAndQuit {
 		log.Println("Checks passed")
 		os.Exit(0)
 	}
