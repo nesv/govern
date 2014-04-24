@@ -11,6 +11,7 @@ var (
 	InventoryFile = flag.String("i", "hosts", "Path to the inventory file")
 	LimitHosts    = flag.String("l", "", "Limit hosts")
 	CheckAndQuit  = flag.Bool("check", false, "Check and exit without running the play")
+	DataDir       = flag.String("d", "", "Alternate path for handlers, tasks, etc.")
 )
 
 func main() {
