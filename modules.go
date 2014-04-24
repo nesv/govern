@@ -53,7 +53,7 @@ func GatherModules() ([]Module, error) {
 		} else if err != nil {
 			return nil, err
 		} else if !fi.IsDir() {
-			return nil, fmt.Errorf("%s is not a directory")
+			return nil, fmt.Errorf("%s is not a directory", pth)
 		}
 
 		m, err := gatherModulesInDir(pth)
