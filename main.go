@@ -44,7 +44,7 @@ func main() {
 	}
 
 	if nmods := len(mods); nmods == 0 {
-		log.Fatalln("No modules found")
+		log.Fatalln("no modules found")
 	} else if nmods == 1 {
 		log.Println("1 module loaded")
 	} else {
@@ -52,6 +52,16 @@ func main() {
 	}
 
 	// Load handlers.
+	handlers, err := LoadHandlers(*DataDir)
+	if err != nil {
+		log.Fatalln(err.Error())
+	}
+	for _, h := range handlers {
+		if err = h.Check(&mods); err != nil {
+			log.Fatalln(err.Error())
+		}
+	}
+	log.Printf("%d handlers loaded", len(handlers))
 
 	// Load tasks.
 
