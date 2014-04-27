@@ -57,9 +57,7 @@ func main() {
 		log.Fatalln(err.Error())
 	}
 	for _, h := range handlers {
-		if err = h.Check(&mods); err != nil {
-			log.Fatalln(err.Error())
-		}
+		log.Printf("loaded handler %q", h.Name)
 	}
 	log.Printf("%d handlers loaded", len(handlers))
 
