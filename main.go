@@ -45,8 +45,21 @@ func main() {
 		glog.V(1).Infof("loaded module %q", module.Name)
 	}
 
+	// Build a list of paths for things like handlers, tasks, etc., from
+	// the DataDir flag ("-path") value.
+	var basedir string
+	if *DataDir == "" {
+		pwd, err := os.Getwd()
+		if err != nil {
+			glog.Fatalln(err)
+		}
+		basedir = pwd
+	} else {
+		basedir = *DataDir
+	}
+
 	// Load handlers.
-	handlers, err := LoadHandlers(*DataDir)
+	handlers, err := LoadHandlers(basedir)
 	if err != nil {
 		glog.Fatalln(err.Error())
 	}

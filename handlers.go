@@ -17,20 +17,9 @@ type (
 )
 
 func LoadHandlers(basedir string) (handlers map[string]Handler, err error) {
-	// The handlers directory path.
-	var hd string
-	if basedir == "" {
-		var pwd string
-		if pwd, err = os.Getwd(); err != nil {
-			return
-		}
-		hd = filepath.Join(pwd, "handlers")
-	} else {
-		hd = filepath.Join(basedir, "handlers")
-	}
-
+	var handlersDir string = filepath.Join(basedir, "handlers")
 	var fi os.FileInfo
-	if fi, err = os.Stat(hd); err != nil && os.IsNotExist(err) {
+	if fi, err = os.Stat(handlersDir); err != nil && os.IsNotExist(err) {
 		// There is no handlers subdirectory.
 		err = fmt.Errorf("no subdirectory %q", "handlers")
 		return
@@ -48,7 +37,7 @@ func LoadHandlers(basedir string) (handlers map[string]Handler, err error) {
 	// of handlers.
 	handlers = make(map[string]Handler, 0)
 
-	glob := filepath.Join(hd, "*.yml")
+	glob := filepath.Join(handlersDir, "*.yml")
 	matches, err := filepath.Glob(glob)
 	if err != nil {
 		return
