@@ -11,4 +11,5 @@
 # Here is an exmaple of a handler (please note, that ideally, this handler
 # would be organized so that it is in a file called "crond.yml"):
 - name: restart crond
-  echo: "msg=restarting crond"
+  module: echo
+  args: "msg=restarting crond"
