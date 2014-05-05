@@ -68,6 +68,13 @@ func main() {
 	}
 
 	// Load tasks.
+	tasks, err := LoadTasks(basedir)
+	if err != nil {
+		glog.Fatalln(err)
+	}
+	for _, task := range tasks {
+		glog.V(1).Infof("loaded task %q", task.Name)
+	}
 
 	// Load the roles.
 
