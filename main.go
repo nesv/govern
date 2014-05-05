@@ -10,8 +10,9 @@ func main() {
 	PlaybookFile := flag.String("play", "site.yml", "Path to the playbook to execute")
 	InventoryFile := flag.String("i", "hosts", "Path to the inventory file")
 	CheckAndQuit := flag.Bool("check", false, "Check and exit without running the play")
-	DataDir := flag.String("p", "", "Alternate path for handlers, tasks, etc.")
+	DataDir := flag.String("path", "", "Alternate path for handlers, tasks, etc.")
 	flag.Parse()
+
 	log.SetFlags(0)
 	log.SetOutput(os.Stdout)
 
