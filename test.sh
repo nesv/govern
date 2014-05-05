@@ -6,7 +6,7 @@ function cleanup {
 
 set -e
 
-trap cleanup SIGINT SIGKILL
+trap cleanup SIGINT SIGKILL SIGQUIT EXIT
 
 go test ./...
 go build -o govern ./...

@@ -14,3 +14,7 @@
   args: name=tree state=latest
   notify: 
     - restart crond
+
+#- name: 
+#  module: echo
+#  args: this should fail

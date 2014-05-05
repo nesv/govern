@@ -34,14 +34,14 @@ func main() {
 	}
 
 	// Gather a list of the available modules.
-	mods, err := GatherModules()
+	modules, err := GatherModules()
 	if err != nil {
 		glog.Fatalf("Error gathering modules: %s", err.Error())
 	}
-	if len(mods) == 0 {
+	if len(modules) == 0 {
 		glog.Fatalln("no modules loaded")
 	}
-	for _, module := range mods {
+	for _, module := range modules {
 		glog.V(1).Infof("loaded module %q", module.Name)
 	}
 
@@ -73,6 +73,9 @@ func main() {
 		glog.Fatalln(err)
 	}
 	for _, task := range tasks {
+		if err := task.Check(&modules); err != nil {
+			glog.Fatalf("error with task %q from file %q: %v", task.Name, task.file, err)
+		}
 		glog.V(1).Infof("loaded task %q", task.Name)
 	}
 

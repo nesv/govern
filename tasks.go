@@ -16,6 +16,23 @@ type (
 	}
 )
 
+func (t *Task) Check(modules *[]Module) error {
+	if len(t.Name) == 0 {
+		return fmt.Errorf("task name cannot be empty")
+	}
+	if len(t.Module) == 0 {
+		return fmt.Errorf("task must name a module")
+	} else {
+		for _, module := range *modules {
+			if t.Module == module.Name {
+				return nil
+			}
+		}
+		return fmt.Errorf("no such module %q", t.Module)
+	}
+	return nil
+}
+
 func LoadTasks(basedir string) (tasks map[string]*Task, err error) {
 	tasksDir := filepath.Join(basedir, "tasks")
 	var fi os.FileInfo
