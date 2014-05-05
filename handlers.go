@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"path/filepath"
 )
@@ -56,8 +55,6 @@ func LoadHandlers(basedir string) (handlers map[string]Handler, err error) {
 	}
 
 	for _, m := range matches {
-		log.Printf("loading handler file %q", m)
-
 		var h []Handler
 		if err = LoadYAMLFileInto(m, &h); err != nil {
 			return
@@ -67,7 +64,7 @@ func LoadHandlers(basedir string) (handlers map[string]Handler, err error) {
 			if hh, exists := handlers[v.Name]; exists {
 				// There is already a handler with that name
 				// that has been loaded. This is a conflict.
-				err = fmt.Errorf("handler %q already exists; previously defined in %q", v.Name, hh.file)
+				err = fmt.Errorf("handler %q in file %q already exists; previously defined in %q", v.Name, v.file, hh.file)
 				return
 			}
 			handlers[v.Name] = v

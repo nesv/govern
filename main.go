@@ -4,6 +4,8 @@ import (
 	"flag"
 	"log"
 	"os"
+
+	"github.com/golang/glog"
 )
 
 func main() {
@@ -18,45 +20,39 @@ func main() {
 
 	inv, err := LoadInventoryFile(*InventoryFile)
 	if err != nil {
-		log.Fatalf("error loading inventory file %q reason=%s", *InventoryFile, err.Error())
+		glog.Fatalf("error loading inventory file %q reason=%s", *InventoryFile, err.Error())
 	}
-
-	if ngroups := len(inv); ngroups == 1 {
-		log.Println("1 host group loaded from inventory")
-	} else {
-		log.Printf("%d host groups loaded from inventory", ngroups)
+	for _, group := range inv {
+		glog.V(1).Infof("loaded host group %q", group.Name)
 	}
 
 	// Run a sanity check on the inventory groups.
 	for _, g := range inv {
 		if err = g.Check(); err != nil {
-			log.Fatalf("Error in group %q: %s", g.Name, err.Error())
+			glog.Fatalf("error in group %q: %s", g.Name, err.Error())
 		}
 	}
 
 	// Gather a list of the available modules.
 	mods, err := GatherModules()
 	if err != nil {
-		log.Fatalf("Error gathering modules: %s", err.Error())
+		glog.Fatalf("Error gathering modules: %s", err.Error())
 	}
-
-	if nmods := len(mods); nmods == 0 {
-		log.Fatalln("no modules found")
-	} else if nmods == 1 {
-		log.Println("1 module loaded")
-	} else {
-		log.Printf("%d modules loaded", nmods)
+	if len(mods) == 0 {
+		glog.Fatalln("no modules loaded")
+	}
+	for _, module := range mods {
+		glog.V(1).Infof("loaded module %q", module.Name)
 	}
 
 	// Load handlers.
 	handlers, err := LoadHandlers(*DataDir)
 	if err != nil {
-		log.Fatalln(err.Error())
+		glog.Fatalln(err.Error())
 	}
-	for _, h := range handlers {
-		log.Printf("loaded handler %q", h.Name)
+	for name, _ := range handlers {
+		glog.V(1).Infof("loaded handler %q", name)
 	}
-	log.Printf("%d handlers loaded", len(handlers))
 
 	// Load tasks.
 
@@ -65,26 +61,20 @@ func main() {
 	// Load the playbook.
 	plays, err := LoadPlaybook(*PlaybookFile)
 	if err != nil {
-		log.Fatalf("Error loading playbook %q: %s", *PlaybookFile, err.Error())
+		glog.Fatalf("error loading playbook %q: %s", *PlaybookFile, err.Error())
 	}
-
-	if nplays := len(plays); nplays == 1 {
-		log.Println("1 play loaded")
-	} else {
-		log.Printf("%d plays loaded", len(plays))
-	}
-
-	// Check the plays.
 	for _, p := range plays {
+		// Check the plays.
 		if err := p.Check(); err != nil {
-			log.Fatalf("Error in play %q: %s", p.Name, err.Error())
+			glog.Fatalf("error in play %q: %s", p.Name, err.Error())
 		}
+		glog.V(1).Infof("loaded play %q", p.Name)
 	}
 
 	// Bail out here if the user wanted only to check the format of their
 	// plays, roles, tasks, etc.
 	if *CheckAndQuit {
-		log.Println("Checks passed")
+		glog.Infoln("Checks passed")
 		os.Exit(0)
 	}
 

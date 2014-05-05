@@ -10,5 +10,5 @@ trap cleanup SIGINT SIGKILL
 
 go test ./...
 go build -o govern ./...
-./govern -path="testfiles"
+./govern -v=1 -logtostderr -path="testfiles" $@
 cleanup
