@@ -44,3 +44,12 @@ func (y RawYAML) ToStringSlice(key string) []string {
 func (y RawYAML) Length() int {
 	return len(y)
 }
+
+func LoadYAMLFileInto(pth string, v interface{}) error {
+	b, err := ioutil.ReadFile(pth)
+	if err != nil {
+		return err
+	}
+	err = yaml.Unmarshal(b, v)
+	return err
+}
