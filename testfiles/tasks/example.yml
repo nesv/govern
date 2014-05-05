@@ -10,4 +10,7 @@
 #
 
 - name: install/upgrade the tree command
-  package: name=tree state=latest
+  module: package
+  args: name=tree state=latest
+  notify: 
+    - restart crond
