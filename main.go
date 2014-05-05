@@ -6,15 +6,11 @@ import (
 	"os"
 )
 
-var (
-	PlaybookFile  = flag.String("play", "site.yml", "Path to the playbook to execute")
-	InventoryFile = flag.String("i", "hosts", "Path to the inventory file")
-	LimitHosts    = flag.String("l", "", "Limit hosts")
-	CheckAndQuit  = flag.Bool("check", false, "Check and exit without running the play")
-	DataDir       = flag.String("d", "", "Alternate path for handlers, tasks, etc.")
-)
-
 func main() {
+	PlaybookFile := flag.String("play", "site.yml", "Path to the playbook to execute")
+	InventoryFile := flag.String("i", "hosts", "Path to the inventory file")
+	CheckAndQuit := flag.Bool("check", false, "Check and exit without running the play")
+	DataDir := flag.String("p", "", "Alternate path for handlers, tasks, etc.")
 	flag.Parse()
 	log.SetFlags(0)
 	log.SetOutput(os.Stdout)
