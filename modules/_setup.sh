@@ -10,10 +10,10 @@
 #
 
 . _osdetect.sh
-[ -z "$GOVERN_OS" ] && echo "could not detect operating system" && exit 1
+[ -z "${GOVERN[os]}" ] && echo "could not detect operating system" && exit 1
 
 # Check to make sure the OS-specific detection script exists.
-scr="_${GOVERN_OS.sh}"
-[ ! -e "$scr" ] && echo "unsupported operating system: ${GOVERN_OS}" && exit 1
+scr="_${GOVERN[os]}.sh"
+[ ! -e "$scr" ] && echo "unsupported operating system: ${GOVERN[os]}" && exit 1
 
-. "_${GOVERN_OS}.sh"
+. "${scr}"

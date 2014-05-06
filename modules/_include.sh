@@ -38,3 +38,6 @@ getparam()
 {
     echo ${PARAMS["$1"]}
 }
+
+# This is the variable that will hold all of the detected system information.
+declare -a GOVERN
