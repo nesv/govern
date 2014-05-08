@@ -39,5 +39,28 @@ getparam()
     echo ${PARAMS["$1"]}
 }
 
+# netmask2cidr converts an IPv4 netmask to CIDR notation.
+netmask2cidr()
+{
+    cidr=0
+    IFS=.
+    for dec in $1
+    do
+	case $dec in
+	    255) let cidr+=8 ;;
+	    254) let cidr+=7 ;;
+	    252) let cidr+=6 ;;
+	    248) let cidr+=5 ;;
+	    240) let cidr+=4 ;;
+	    224) let cidr+=3 ;;
+	    192) let cidr+=2 ;;
+	    128) let cidr+=1 ;;
+	    0) ;;
+	    *) echo "$dec is not recognized"; exit 1
+	esac
+    done
+    echo "$cidr"
+}
+
 # This is the variable that will hold all of the detected system information.
 declare -a GOVERN
