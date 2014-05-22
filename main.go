@@ -94,6 +94,17 @@ func main() {
 		glog.V(1).Infof("loaded play %q", p.Name)
 	}
 
+	// Gather facts about the current system.
+	facts, err := GatherFacts()
+	if err != nil {
+		glog.Fatalf("failed to gather facts: %v", err.Error())
+	}
+	glog.V(1).Infoln("gathered facts")
+	if glog.V(2) {
+		glog.Infoln("facts output:")
+		PrettyPrint(facts, "json")
+	}
+
 	// Bail out here if the user wanted only to check the format of their
 	// plays, roles, tasks, etc.
 	if *CheckAndQuit {
