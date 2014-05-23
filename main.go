@@ -56,7 +56,9 @@ func main() {
 		log.Fatalf("error loading inventory file %q reason=%s", InventoryFile, err.Error())
 	}
 	for _, group := range inv {
-		log.Printf("loaded host group %q", group.Name)
+		if Verbose {
+			log.Printf("loaded host group %q", group.Name)
+		}
 	}
 
 	// Run a sanity check on the inventory groups.
@@ -81,7 +83,7 @@ func main() {
 	}
 
 	// Build a list of paths for things like handlers, tasks, etc., from
-	// the DataDir flag ("--path") value.
+	// the "--path" flag.
 	datadir, ok := args["--path"].(string)
 	if !ok {
 		log.Fatalln("could not coerce --path value to string")
@@ -117,7 +119,9 @@ func main() {
 		if err := task.Check(&modules); err != nil {
 			log.Fatalf("error with task %q from file %q: %v", task.Name, task.file, err)
 		}
-		log.Printf("loaded task %q", task.Name)
+		if Verbose {
+			log.Printf("loaded task %q", task.Name)
+		}
 	}
 
 	// Load the roles.

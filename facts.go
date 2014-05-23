@@ -43,6 +43,8 @@ type (
 	}
 )
 
+// Function GatherFacts is the main function to call for gathering facts on the
+// system.
 func GatherFacts() (facts *Facts, err error) {
 	defer func() {
 		if e := recover(); e != nil {
@@ -72,6 +74,9 @@ func GatherFacts() (facts *Facts, err error) {
 	return
 }
 
+// Function GetFact runs the specified cmd, and returns the output.
+//
+// This function will panic on any errors.
 func GetFact(cmd *exec.Cmd) (output string) {
 	out, err := cmd.CombinedOutput()
 	if err != nil {
@@ -81,6 +86,8 @@ func GetFact(cmd *exec.Cmd) (output string) {
 	return
 }
 
+// Function GatherNetworkingFacts gathers fact information about networking
+// interfaces.
 func GatherNetworkingFacts() (facts NetworkFacts, err error) {
 	interfaces, err := net.Interfaces()
 	if err != nil {
