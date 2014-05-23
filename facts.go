@@ -28,8 +28,18 @@ type (
 
 	NetworkInterfaceFact struct {
 		Name string
-		Addr []string
+		Addr NetworkInterfaceAddrsFact
 		MAC  string
+	}
+
+	NetworkInterfaceAddrsFact struct {
+		IPv4 []IPAddrFact
+		IPv6 []IPAddrFact
+	}
+
+	IPAddrFact struct {
+		Addr string
+		Mask string
 	}
 )
 
@@ -47,29 +57,9 @@ func GatherFacts() (facts *Facts, err error) {
 		Name:    GetFact(CmdOSName)}
 
 	// Gather networking facts.
-	var interfaces []net.Interface
-	interfaces, err = net.Interfaces()
+	netFacts, err := GatherNetworkingFacts()
 	if err != nil {
 		return
-	}
-	ifaceFacts := make([]NetworkInterfaceFact, len(interfaces))
-	for i, iface := range interfaces {
-		fact := NetworkInterfaceFact{
-			Name: iface.Name,
-			MAC:  iface.HardwareAddr.String()}
-
-		// Get all of the addresses for the network interface.
-		var addrs []net.Addr
-		if addrs, err = iface.Addrs(); err != nil {
-			return
-		}
-		ifaddrs := make([]string, len(addrs))
-		for _, addr := range addrs {
-			ifaddrs = append(ifaddrs, addr.String())
-		}
-		fact.Addr = ifaddrs
-
-		ifaceFacts[i] = fact
 	}
 
 	// Put it all together, and whaddaya get?
@@ -78,7 +68,7 @@ func GatherFacts() (facts *Facts, err error) {
 		FQDN:       GetFact(CmdFQDN),
 		DomainName: "",
 		OS:         osFacts,
-		Net:        NetworkFacts{Interfaces: ifaceFacts}}
+		Net:        netFacts}
 	return
 }
 
@@ -92,5 +82,38 @@ func GetFact(cmd *exec.Cmd) (output string) {
 }
 
 func GatherNetworkingFacts() (facts NetworkFacts, err error) {
+	interfaces, err := net.Interfaces()
+	if err != nil {
+		return
+	}
+
+	ifaceFacts := make([]NetworkInterfaceFact, len(interfaces))
+	for i, iface := range interfaces {
+		fact := NetworkInterfaceFact{
+			Name: iface.Name,
+			MAC:  iface.HardwareAddr.String()}
+
+		// Get all of the addresses for the network interface.
+		var addrs []net.Addr
+		if addrs, err = iface.Addrs(); err != nil {
+			return
+		}
+		ipv4 := make([]IPAddrFact, 0)
+		ipv6 := make([]IPAddrFact, 0)
+		for _, addr := range addrs {
+			parts := strings.Split(addr.String(), "/")
+			ipaf := IPAddrFact{Addr: parts[0], Mask: parts[1]}
+			ip := net.ParseIP(parts[0])
+			if ip4 := ip.To4(); ip4 == nil {
+				ipv6 = append(ipv6, ipaf)
+			} else {
+				ipv4 = append(ipv4, ipaf)
+			}
+		}
+		fact.Addr = NetworkInterfaceAddrsFact{IPv4: ipv4, IPv6: ipv6}
+		ifaceFacts[i] = fact
+	}
+
+	facts = NetworkFacts{Interfaces: ifaceFacts}
 	return
 }

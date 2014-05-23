@@ -3,10 +3,9 @@
 function cleanup {
     rm -f govern
 }
+trap cleanup EXIT
 
 set -e
-
-trap cleanup SIGINT SIGKILL SIGQUIT EXIT
 
 go test ./...
 go build -o govern ./...
