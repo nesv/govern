@@ -90,3 +90,7 @@ func GetFact(cmd *exec.Cmd) (output string) {
 	output = strings.Trim(string(out), "\n")
 	return
 }
+
+func GatherNetworkingFacts() (facts NetworkFacts, err error) {
+	return
+}
