@@ -1,30 +1,19 @@
 # govern
 
-A silly, proof-of-concept project to see how difficult it would be to implement
-an [Ansible](http://www.ansible.com/home)-like system in Go, while not relying
-on a remote Python interpreter. Trying to do this all without some form of
-remotely-executable code would be silly, so instead of relying on Python, or
-Ruby, or TCL, or whatever, just use sh-compatible scripting and execute the
-scripts using bash or zsh, or the like.
+A silly, proof-of-concept project for writing a configuration management
+system, in Go.
 
-## The goals
+## TODO
 
-* Just SSH for the transport layer
-* YAML for configs/"plays"
-* Compile config file templates locally, then ship them out to the hosts (this
-  would need to be done after getting information about the host)
+* [ ] Pick a decent configuration syntax (I'm thinking [HCL](https://github.com/hashicorp/hcl)
 
-## Things to consider
+## Goals
 
-* Getting information about a host (refer to Ansible's
-  [setup](http://docs.ansible.com/setup_module.html) module)
-* Stick to YAML for an inventory file; don't switch between YAML and INI-style
+*	Stick to the Go standard library, as much as possible
 
 ## Pipe dreams
 
-* Full compatibility with Ansible; should be able to use `govern` in place of
-  the `ansible` and `ansible-playbook` commands
-* Be successful
+*	Be successful
 
 ## Not-quite pipe dreams
 
