@@ -1,4 +1,0 @@
----
-- name: restart crond 2
-  module: service
-  args: state=restarted
