@@ -1,0 +1,21 @@
+role "postgresql-9.4" task "install postgresql server" yum {
+    package = "postgresql-server.x86_64"
+    state = "latest"
+    when {
+        os_family = "RedHat"
+    }
+}
+
+role "postgresql-9.4" task "install postgresql server" apt {
+    package = "postgresql94-server"
+    state = "installed"
+    when {
+        os_family = "Debian"
+    }
+}
+
+role "postgresql-9.4" task "initialize database files" command {
+     exec = "service postgresql94 initdb"
+     sudo = yes
+     sudo_user = "postgres"
+}

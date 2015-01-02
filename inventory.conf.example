@@ -1,0 +1,31 @@
+group "nyc3-webservers" host "web01" {
+    addr = "10.0.1.1"
+}
+
+group "nyc3-webservers" host "web02" {
+    addr = "10.0.1.2"
+}
+
+group "nyc3-appservers" vars {
+    app_version = "0.1.0"
+}
+
+group "nyc3-appservers" host "app01" {
+    addr = "10.0.2.1"
+}
+
+group "nyc3-dbservers" host "postgres01" {
+    addr = "10.0.3.1"
+}
+
+group "development" {
+    children = ["nyc3-webservers", "nyc3-appservers", "nyc3-dbservers"]
+    vars {
+        app_version = "0.1.0"
+    }
+}
+
+host "pg01-dev" {
+    addr = "10.0.3.1"
+    roles = ["postgresql-9.4"]
+}

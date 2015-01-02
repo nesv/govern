@@ -1,0 +1,25 @@
+{
+    "hosts": {
+	"pg01-dev": {
+	    "addr": "10.0.3.1",
+	    "roles": ["postgresql-9.4"]
+	}
+    },
+    "groups": {
+	"development": {
+	    "children": ["dev-webservers", "dev-appservers", "dev-dbservers"],
+	    "vars": {
+		"app_version": "0.1.0"
+	    }
+	},
+	"dev-webservers": {
+
+	},
+	"dev-appservers": {
+
+	},
+	"dev-dbservers": {
+
+	}
+    }
+}
