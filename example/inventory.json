@@ -1,0 +1,51 @@
+{
+    "db-servers": {
+	"children": [],
+	"hosts": {
+	    "postgresql01": {
+		"ssh_host": "10.0.10.1",
+		"ssh_user": "govern"
+	    }
+	}
+    },
+    "redis-servers": {
+	"hosts": {
+	    "redis01": {
+		"ssh_host": "10.0.11.1"
+	    },
+	    "redis02": {
+		"ssh_host": "10.0.11.2"
+	    }
+	}
+    },
+    "app-servers": {
+	"hosts": {
+	    "app01.example.com": {},
+	    "app02.example.com": {},
+	    "app03.example.com": {},
+	}
+    },
+    "pgbouncers" : {
+	"children": ["app-servers"]
+    },
+    "twemproxy-servers": {
+	"children": ["app-servers"]
+    },
+    "consul-bootstrap-server": {
+	"hosts": {
+	    "www01": {}
+	}
+    },
+    "consul-agents": {
+	"children": [
+	    "db-servers",
+	    "redis-servers",
+	    "app-servers"
+	]
+    },
+    "loadbalancers": {
+	"hosts": {
+	    "www01": {}
+	}
+    }
+}

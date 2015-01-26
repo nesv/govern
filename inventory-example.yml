@@ -1,6 +1,0 @@
----
-- name: dbservers
-  hosts:
-    - {name: "postgresql", ssh_host: "10.0.2.1", ssh_user: "ubuntu"}
-  vars:
-    

@@ -1,0 +1,35 @@
+{
+    "download pre-compiled binary (linux/amd64)": {
+	"module": "www",
+	"args": {
+	    "method": "get",
+	    "url": "https://dl.bintray.com/mitchellh/consul/{{.ConsulVersion}}_linux_amd64.zip",
+	    "dest": "/tmp/consul-{{.ConsulVersion}}_linux_amd64.zip"
+	}
+    },
+    "unpack the zip archive": {
+	"module": "unarchive",
+	"args": {
+	    "src": "/tmp/consul-{{.ConsulVersion}}_linux_amd64.zip",
+	    "creates": "/tmp/consul"
+	}
+    },
+    "move the consul binary into place": {
+	"module": "file",
+	"args": {
+	    "action": "mv",
+	    "src": "/tmp/consul",
+	    "dest": "/usr/local/bin/consul",
+	    "overwrite": true
+	}
+    },
+    "create necessary dirs": {
+	"module": "file",
+	"args": {
+	    "action": "mkdir",
+	    "path": "{{.item}}",
+	    "create_parent_directories": true
+	},
+	"items": ["/etc/consul.d", "/var/lib/consul"]
+    }
+}

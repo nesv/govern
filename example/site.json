@@ -1,0 +1,30 @@
+{
+    "setup the consul bootstrap node": {
+	"hosts": ["consul-bootstrap-server"],
+	"roles": ["consul", "consul-bootstrap"]
+    },
+    "database servers": {
+	"groups": ["db-servers"],
+	"roles": ["postgresql94", "consul", "consul-agent-database"]
+    },
+    "set up the redis servers": {
+	"groups": ["redis-servers"],
+	"roles": ["redis", "consul", "consul-agent-redis"]
+    },
+    "set up twemproxy": {
+	"groups": ["twemproxy-servers"],
+	"roles": ["twemproxy", "consul", "consul-agent-twemproxy"]
+    },
+    "set up pgbouncer": {
+	"groups": ["pgbouncers"],
+	"roles": ["pgbouncer", "consul", "consul-agent-pgbouncer"]
+    },
+    "set up app servers": {
+	"groups": ["app-servers"],
+	"roles": ["app", "consul", "consul-agent-app"]
+    },
+    "set up web load balancers": {
+	"groups": ["loadbalancers"],
+	"roles": ["lb-nginx", "consul", "consul-agent-lb-nginx"]
+    }
+}
